@@ -41,7 +41,7 @@ public class CarController {
     }
 
     @PostMapping("/api/car/{name}")
-    public ResponseEntity<Void> updatePrice(@PathVariable("name") String name, @RequestBody DuplicateCarDto duplicateCarDto) {
+    public ResponseEntity<Void> duplicate(@PathVariable("name") String name, @RequestBody DuplicateCarDto duplicateCarDto) {
         final Optional<Car> optionalCar = carRepository.findByName(name);
         optionalCar.ifPresent(car -> {
             String category = car.getCategory();

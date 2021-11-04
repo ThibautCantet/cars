@@ -53,3 +53,4 @@ Fonctionnalité: Commandes concernant les voitures
       | name   | price | category |
       | twingo | 10000 | Small    |
       | megane | 25000 | Medium   |
+      | espace | 55000 | Family   |
