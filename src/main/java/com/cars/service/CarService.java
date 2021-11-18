@@ -2,7 +2,9 @@ package com.cars.service;
 
 import com.cars.model.Car;
 import com.cars.repository.CarRepository;
+import org.springframework.stereotype.Service;
 
+@Service
 public class CarService {
     private final CarRepository carRepository;
 

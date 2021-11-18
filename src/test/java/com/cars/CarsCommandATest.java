@@ -5,6 +5,7 @@ import com.cars.dto.CreateCarDto;
 import com.cars.dto.DuplicateCarDto;
 import com.cars.dto.UpdatedCarDto;
 import com.cars.repository.CarRepository;
+import com.cars.service.CarService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
@@ -27,11 +28,13 @@ public class CarsCommandATest {
 
     @Autowired
     private CarRepository carRepository;
+    @Autowired
+    private CarService carService;
     private ResultActions resultActions;
 
     @Quand("on crée une nouvelle voiture {string} à {int}€")
     public void onCréeUneNouvelleVoitureÀ€(String name, int price) throws Exception {
-        mockMvc = MockMvcBuilders.standaloneSetup(new CarController(carRepository)).build();
+        mockMvc = MockMvcBuilders.standaloneSetup(new CarController(carRepository, carService)).build();
         resultActions = mockMvc.perform(
                 post("/api/car/")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -46,7 +49,7 @@ public class CarsCommandATest {
 
     @Quand("on duplique une {string} en {string} à {int}€")
     public void onDupliqueUneEnÀ€(String originalName, String newName, int newPrice) throws Exception {
-        mockMvc = MockMvcBuilders.standaloneSetup(new CarController(carRepository)).build();
+        mockMvc = MockMvcBuilders.standaloneSetup(new CarController(carRepository, carService)).build();
 
         resultActions = mockMvc.perform(
                 post("/api/car/" + originalName)
@@ -57,7 +60,7 @@ public class CarsCommandATest {
 
     @Quand("on met à jour le prix à {int} de la voiture \\({int})")
     public void onMetÀJourLePrixÀDeLaVoiture(int newPrice, int id) throws Exception {
-        mockMvc = MockMvcBuilders.standaloneSetup(new CarController(carRepository)).build();
+        mockMvc = MockMvcBuilders.standaloneSetup(new CarController(carRepository, carService)).build();
 
         resultActions = mockMvc.perform(
                 patch("/api/car/" + id)

@@ -75,7 +75,7 @@ public class CarsATest {
     public void onRécupèreLesInformationsSuivantesDeLaBase(DataTable dataTable) {
         List<Car> expectedCars = dataTableTransformEntries(dataTable, this::buildCarInfo);
 
-        final Integer carId = findFirstSavedCarId();
+        final Integer carId = carRepository.findAll().iterator().next().getId();
         final Car car = carRepository.findById(carId).get();
         assertThat(car.getName()).isEqualTo(expectedCars.get(0).getName());
         assertThat(car.getPrice()).isEqualTo(expectedCars.get(0).getPrice());

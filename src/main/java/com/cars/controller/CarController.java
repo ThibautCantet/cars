@@ -1,10 +1,12 @@
 package com.cars.controller;
 
 import com.cars.dto.CarDto;
+import com.cars.dto.CreateCarDto;
 import com.cars.dto.DuplicateCarDto;
 import com.cars.dto.UpdatedCarDto;
 import com.cars.model.Car;
 import com.cars.repository.CarRepository;
+import com.cars.service.CarService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,9 +23,11 @@ import static com.cars.model.Car.SMALL_CAR_MAX_PRICE;
 public class CarController {
 
     private final CarRepository carRepository;
+    private final CarService carService;
 
-    public CarController(CarRepository carRepository) {
+    public CarController(CarRepository carRepository, CarService carService) {
         this.carRepository = carRepository;
+        this.carService = carService;
     }
 
     @GetMapping("/api/car/")
@@ -67,5 +71,11 @@ public class CarController {
             }
         });
         return new ResponseEntity<>(result.get());
+    }
+
+    @PostMapping("/api/car/")
+    public ResponseEntity<Void> create(@RequestBody CreateCarDto createCarDto) {
+        carService.create(createCarDto.name(), createCarDto.price());
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 }

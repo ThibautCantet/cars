@@ -3,6 +3,7 @@ package com.cars;
 import com.cars.controller.CarController;
 import com.cars.dto.CarDto;
 import com.cars.repository.CarRepository;
+import com.cars.service.CarService;
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.fr.Alors;
 import io.cucumber.java.fr.Quand;
@@ -26,12 +27,14 @@ public class CarsQueryATest {
 
     @Autowired
     private CarRepository carRepository;
+    @Autowired
+    private CarService carService;
 
     private ResultActions resultActions;
 
     @Quand("on affiche une {string}")
     public void onAfficheUne(String name) throws Exception {
-        mockMvc = MockMvcBuilders.standaloneSetup(new CarController(carRepository)).build();
+        mockMvc = MockMvcBuilders.standaloneSetup(new CarController(carRepository, carService)).build();
 
         resultActions = this.mockMvc.perform(get("/api/car/" + name));
     }
@@ -51,7 +54,7 @@ public class CarsQueryATest {
 
     @Quand("on affiche toutes les voitures")
     public void onAfficheToutesLesVoitures() throws Exception {
-        mockMvc = MockMvcBuilders.standaloneSetup(new CarController(carRepository)).build();
+        mockMvc = MockMvcBuilders.standaloneSetup(new CarController(carRepository, carService)).build();
 
         resultActions = this.mockMvc.perform(get("/api/car/")).andExpect(status().isOk());
 
